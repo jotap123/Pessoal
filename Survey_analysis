@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+
+'''Primeiro carregamos a base de dados que é uma pesquisa sobre o quão interessadas as pessoas estão nas diferentes áreas de Data Science'''
+
+df = pd.read_csv('Topic_Survey_Assignment.csv', index_col = 0)
+df
+
+'''Ordenamos da maior quantidade de 'muito interessados' para baixo'''
+
+dataf = df.sort_values('Very interested', ascending=False)
+dataf
+
+''' Transformamos os números em porcentagem'''
+
+dfperc = (dataf / 2233) * 100
+dfperc = dfperc.round(2)
+dfperc
+
+
+'''E plotamos o gráfico para visualizar melhor a informação obtida'''
+
+ax = dfperc.plot(kind='bar', figsize=(20, 8), width=0.8, color=['#5cb85c', '#5bc0de', '#d9534f'],)
+
+ax.tick_params(labelsize=14)
+ax.legend(fontsize=14)
+ax.set_title("Percentage of Respondents' Interest in Data Science Area", fontsize=16)
+ax.axes.get_yaxis().set_visible(False)
+for spine in ax.spines:
+    ax.spines[spine].set_visible(False)
+for p in ax.patches:
+    ax.annotate(np.round(p.get_height(),decimals=2), 
+                (p.get_x()+p.get_width()/2., p.get_height()), 
+                ha='center', 
+                va='center', 
+                xytext=(0, 10), 
+                textcoords='offset points',
+                fontsize = 14
+               )
